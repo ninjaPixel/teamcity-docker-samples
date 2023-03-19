@@ -24,23 +24,31 @@ services:
       - 5433:5432
 
   teamcity:
+    depends_on:
+      - db
+    restart: always
     image: jetbrains/teamcity-server:${TEAMCITY_VERSION}
     ports:
       - "8112:8111"
     volumes:
       - ./data_dir:/data/teamcity_server/datadir
       - ./teamcity-server-logs:/opt/teamcity/logs
-    depends_on:
-      - db
 
   teamcity-agent-1:
+    depends_on:
+      - teamcity
+    restart: always
     image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
     privileged: true
     volumes:
       - ./agents/agent-1/conf:/data/teamcity_agent/conf
     environment:
       - DOCKER_IN_DOCKER=start
+
   teamcity-agent-2:
+    depends_on:
+      - teamcity
+    restart: always
     image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
     privileged: true
     volumes:
