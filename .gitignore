@@ -1,0 +1,7 @@
+buildserver_pgdata/
+data_dir/
+teamcity-server-logs/
+agents/agent-1/conf/
+agents/agent-1/conf/
+.DS_Store
+.idea
